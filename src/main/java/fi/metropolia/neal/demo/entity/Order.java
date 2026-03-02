@@ -1,6 +1,7 @@
 package fi.metropolia.neal.demo.entity;
 
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
 import java.time.LocalDateTime;
 
@@ -11,6 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.CascadeType;
 
 @Entity
 @Table(name = "orders")
@@ -19,6 +23,7 @@ public class Order {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,6 +38,9 @@ public class Order {
     private int shippingAddressId;
     @Column(name = "status")
     private String status;
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
+    private PaymentDetail paymentDetail;
 
     // Getters and setters
     public void setId(int id) {
@@ -70,5 +78,15 @@ public class Order {
     }
     public String getStatus() {
         return status;
+    }
+        public PaymentDetail getPaymentDetail() {
+        return paymentDetail;
+    }
+
+    public void setPaymentDetail(PaymentDetail paymentDetail) {
+        this.paymentDetail = paymentDetail;
+        if (paymentDetail != null) {
+            paymentDetail.setOrder(this);
+        }
     }
 }
