@@ -23,6 +23,10 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Integer id) {
+        Customer customer = customerRepo.findById(id).orElse(null);
+        if (customer != null) {
+            System.out.println("Customer:" + customer.getFirstName() + " " + customer.getLastName());
+        }
         return customerRepo.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
