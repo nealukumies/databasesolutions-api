@@ -2,8 +2,11 @@ package fi.metropolia.neal.demo.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import fi.metropolia.neal.demo.entity.Product;
 import fi.metropolia.neal.demo.entity.Supplier;
@@ -84,5 +87,22 @@ public class ProductController {
                     return ResponseEntity.ok(savedProduct);
                 })
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PatchMapping("/update-price")
+    public ResponseEntity<Void> updatePriceByPercentage(@RequestBody Map<String, Double> request) {
+        productRepo.updatePriceByPercentage(request.get("percentage"));
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<Product>> getProductsByPriceRange(@RequestBody Map<String, Double> range) {
+
+        double minPrice = range.get("minPrice");
+        double maxPrice = range.get("maxPrice");
+
+        List<Product> products = productRepo.findProductsByPriceRange(minPrice, maxPrice);
+
+        return ResponseEntity.ok(products);
     }
 }
