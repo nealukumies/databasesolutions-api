@@ -41,7 +41,7 @@ public class Customer {
     @Column(name = "phone")
     private String phone;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @JsonManagedReference(value="customer-orders")
     private List<Order> orders = new ArrayList<>();
     
     public void setId(int id) {

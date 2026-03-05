@@ -1,51 +1,43 @@
 package fi.metropolia.neal.demo.controller;
 
-import fi.metropolia.neal.demo.entity.Order;
-import fi.metropolia.neal.demo.entity.PaymentDetail;
-import fi.metropolia.neal.demo.repository.OrderRepo;
-import fi.metropolia.neal.demo.repository.PaymentDetailRepo;
+import fi.metropolia.neal.demo.dto.PaymentDetailDTO;
+import fi.metropolia.neal.demo.service.PaymentDetailService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/payments")
 public class PaymentDetailController {
-    private final PaymentDetailRepo paymentRepo;
-    private final OrderRepo orderRepo;
 
-    public PaymentDetailController(PaymentDetailRepo paymentRepo, OrderRepo orderRepo) {
-        this.paymentRepo = paymentRepo;
-        this.orderRepo = orderRepo;
+    private final PaymentDetailService service;
+
+    public PaymentDetailController(PaymentDetailService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public ResponseEntity<PaymentDetail> createPayment(@RequestBody PaymentDetail payment) {
-        if (payment.getOrder() != null) {
-            Order order = orderRepo.findById(payment.getOrder().getId())
-                    .orElseThrow(() -> new RuntimeException("Order not found: " + payment.getOrder().getId()));
-            payment.setOrder(order);
-        }
-        PaymentDetail saved = paymentRepo.save(payment);
+    public ResponseEntity<PaymentDetailDTO> createPayment(@RequestBody PaymentDetailDTO dto) {
+        PaymentDetailDTO saved = service.save(dto);
         return ResponseEntity.ok(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PaymentDetail> updatePayment(@PathVariable int id,
-                                                       @RequestBody PaymentDetail updated) {
-        return paymentRepo.findById(id)
-                .map(existing -> {
-                    existing.setCardNumber(updated.getCardNumber());
-                    existing.setPaymentStatus(updated.getPaymentStatus());
-                    existing.setPaymentDate(updated.getPaymentDate());
-                    PaymentDetail saved = paymentRepo.save(existing);
-                    return ResponseEntity.ok(saved);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<PaymentDetailDTO> updatePayment(@PathVariable int id,
+                                                          @RequestBody PaymentDetailDTO dto) {
+        PaymentDetailDTO updated = new PaymentDetailDTO(
+                id,
+                dto.orderId(),
+                dto.cardNumber(),
+                dto.paymentStatus(),
+                dto.paymentDate()
+        );
+        PaymentDetailDTO saved = service.save(updated);
+        return ResponseEntity.ok(saved);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaymentDetail> getPayment(@PathVariable int id) {
-        return paymentRepo.findById(id)
+    public ResponseEntity<PaymentDetailDTO> getPayment(@PathVariable int id) {
+        return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

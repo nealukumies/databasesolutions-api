@@ -25,10 +25,10 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
-    @JsonBackReference
+    @JsonBackReference(value="customer-orders")
     private Customer customer;
     @Column(name = "order_date")
     private LocalDateTime orderDate;
@@ -43,10 +43,10 @@ public class Order {
     private PaymentDetail paymentDetail;
 
     // Getters and setters
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     public void setCustomer(Customer customer) {
@@ -67,7 +67,7 @@ public class Order {
     public LocalDateTime getDeliveryDate() {
         return deliveryDate;
     }
-    public void setShippingAddressId(int shippingAddressId) {
+    public void setShippingAddressId(Integer shippingAddressId) {
         this.shippingAddressId = shippingAddressId;
     }
     public int getShippingAddressId() {
