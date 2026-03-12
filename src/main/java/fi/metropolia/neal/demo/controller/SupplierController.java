@@ -3,24 +3,17 @@ package fi.metropolia.neal.demo.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fi.metropolia.neal.demo.repository.SupplierRepo;
 import fi.metropolia.neal.demo.service.SupplierService;
 
-import java.util.ArrayList;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import java.util.List;
 
 import fi.metropolia.neal.demo.dto.SupplierDTO;
-import fi.metropolia.neal.demo.entity.Product;
 import fi.metropolia.neal.demo.entity.Supplier;
-import fi.metropolia.neal.demo.repository.ProductRepo;
 
 @RestController
 @RequestMapping("/suppliers")

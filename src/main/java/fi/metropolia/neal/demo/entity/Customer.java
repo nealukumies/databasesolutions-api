@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +24,7 @@ import jakarta.persistence.CascadeType;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "customer_type")
+@DiscriminatorValue("PERSON")
 @Table(name = "customers")
 public class Customer {
     public Customer() {
@@ -32,7 +34,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "first_name ")
+    @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
@@ -40,7 +42,7 @@ public class Customer {
     private String email;
     @Column(name = "phone")
     private String phone;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     @JsonManagedReference(value="customer-orders")
     private List<Order> orders = new ArrayList<>();
     

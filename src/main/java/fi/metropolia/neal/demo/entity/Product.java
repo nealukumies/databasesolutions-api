@@ -2,7 +2,7 @@ package fi.metropolia.neal.demo.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
@@ -13,7 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -45,7 +45,7 @@ public class Product {
         joinColumns = @JoinColumn(name = "product_id"),
         inverseJoinColumns = @JoinColumn(name = "supplier_id")
     )
-    private List<Supplier> suppliers = new ArrayList<>();
+    private Set<Supplier> suppliers = new HashSet<>();
 
     public void setId(int id) {
         this.id = id;
@@ -95,10 +95,10 @@ public class Product {
     public LocalDate getEndDate() {
         return endDate;
     }
-    public List<Supplier> getSuppliers() {
+    public Set<Supplier> getSuppliers() {
         return suppliers;
     }
-    public void setSuppliers(List<Supplier> suppliers) {
+    public void setSuppliers(Set<Supplier> suppliers) {
         this.suppliers = suppliers;
     }
     public void addSupplier(Supplier supplier) {

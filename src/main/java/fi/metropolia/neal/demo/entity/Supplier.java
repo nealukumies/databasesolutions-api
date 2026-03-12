@@ -1,6 +1,7 @@
 package fi.metropolia.neal.demo.entity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.util.List;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.GenerationType;
@@ -33,7 +36,7 @@ public class Supplier {
     private String email;
     @ManyToMany(mappedBy = "suppliers")
     @JsonIgnore
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
 
     public void setId(int id) {
         this.id = id;
@@ -65,10 +68,10 @@ public class Supplier {
     public String getEmail() {
         return email;
     }
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
-    public void setProducts(List<Product> products) {
+    public void setProducts(Set<Product> products) {
         this.products = products;
     }
     public void addProduct(Product product) {

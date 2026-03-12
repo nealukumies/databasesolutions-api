@@ -1,24 +1,33 @@
 package fi.metropolia.neal.demo.service;
 
 import fi.metropolia.neal.demo.dto.CustomerDTO;
+import fi.metropolia.neal.demo.dto.OrderDTO;
+import fi.metropolia.neal.demo.dto.PaymentDetailDTO;
 import fi.metropolia.neal.demo.dto.CompanyCustomerDTO;
 import fi.metropolia.neal.demo.entity.CompanyCustomer;
 import fi.metropolia.neal.demo.entity.Customer;
+import fi.metropolia.neal.demo.entity.Order;
 import fi.metropolia.neal.demo.repository.CustomerRepo;
-import org.springframework.stereotype.Service;
+import java.util.List;
 
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
 
     private final CustomerRepo customerRepo;
+    private final OrderService orderService;
+    private final PaymentDetailService paymentService;
 
-    public CustomerService(CustomerRepo customerRepo) {
+    public CustomerService(CustomerRepo customerRepo,
+                           OrderService orderService,
+                           PaymentDetailService paymentService) {
         this.customerRepo = customerRepo;
+        this.orderService = orderService;
+        this.paymentService = paymentService;
     }
-
-    // --- CUSTOMER ---
 
     public Optional<CustomerDTO> getCustomerById(Integer id) {
         return customerRepo.findById(id)
@@ -54,7 +63,6 @@ public class CustomerService {
         return false;
     }
 
-    // --- COMPANY CUSTOMER ---
 
     public Optional<CompanyCustomerDTO> getCompanyCustomerById(Integer id) {
         return customerRepo.findById(id)
@@ -100,7 +108,6 @@ public class CustomerService {
                 .orElse(false);
     }
 
-    // --- MAPPERS ---
     private CustomerDTO toDTO(Customer c) {
         return new CustomerDTO(c.getId(), c.getFirstName(), c.getLastName(), c.getEmail(), c.getPhone());
     }
@@ -116,4 +123,17 @@ public class CustomerService {
                 c.getVatNumber()
         );
     }
+
+    public List<OrderDTO> getOrdersForCustomer(Integer customerId) {
+        Customer customer = customerRepo.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        return orderService.getOrdersByCustomer(customer);
+    }
+
+    public List<PaymentDetailDTO> getPaymentsForCustomer(Integer customerId) {
+        Customer customer = customerRepo.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        return paymentService.getPaymentsByCustomer(customer); 
+    }
+
 }

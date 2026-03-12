@@ -1,6 +1,7 @@
 package fi.metropolia.neal.demo.service;
 
 import fi.metropolia.neal.demo.dto.PaymentDetailDTO;
+import fi.metropolia.neal.demo.entity.Customer;
 import fi.metropolia.neal.demo.entity.Order;
 import fi.metropolia.neal.demo.entity.PaymentDetail;
 import fi.metropolia.neal.demo.repository.OrderRepo;
@@ -8,6 +9,7 @@ import fi.metropolia.neal.demo.repository.PaymentDetailRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,7 +24,6 @@ public class PaymentDetailService {
         this.orderRepo = orderRepo;
     }
 
-    // Create or update
     public PaymentDetailDTO save(PaymentDetailDTO dto) {
         PaymentDetail payment = new PaymentDetail();
 
@@ -31,7 +32,6 @@ public class PaymentDetailService {
                     .orElse(new PaymentDetail());
         }
 
-        // Link order if provided
         if (dto.orderId() != null) {
             Order order = orderRepo.findById(dto.orderId())
                     .orElseThrow(() -> new RuntimeException("Order not found: " + dto.orderId()));
@@ -46,12 +46,10 @@ public class PaymentDetailService {
         return toDTO(saved);
     }
 
-    // Get by id
     public Optional<PaymentDetailDTO> getById(int id) {
         return paymentRepo.findById(id).map(this::toDTO);
     }
 
-    // Mapper
     private PaymentDetailDTO toDTO(PaymentDetail payment) {
         return new PaymentDetailDTO(
                 payment.getId(),
@@ -60,5 +58,12 @@ public class PaymentDetailService {
                 payment.getPaymentStatus(),
                 payment.getPaymentDate()
         );
+    }
+
+    public List<PaymentDetailDTO> getPaymentsByCustomer(Customer customer) {
+        return paymentRepo.findByCustomerId(customer.getId())
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
 }

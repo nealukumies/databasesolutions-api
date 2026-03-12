@@ -3,15 +3,10 @@ package fi.metropolia.neal.demo.controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import fi.metropolia.neal.demo.entity.Product;
-import fi.metropolia.neal.demo.entity.Supplier;
-import fi.metropolia.neal.demo.repository.ProductRepo;
-import fi.metropolia.neal.demo.repository.SupplierRepo;
 import fi.metropolia.neal.demo.service.ProductService;
 import fi.metropolia.neal.demo.dto.ProductDTO;
 

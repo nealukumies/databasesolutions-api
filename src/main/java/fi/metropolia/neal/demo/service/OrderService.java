@@ -10,6 +10,7 @@ import fi.metropolia.neal.demo.entity.PaymentDetail;
 import fi.metropolia.neal.demo.dto.OrderDTO;
 
 import java.util.Optional;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -58,7 +59,6 @@ public class OrderService {
         );
     }
 
-    // Converts OrderDTO → Order entity (for create/update)
     private void fromDTO(OrderDTO dto, Order order) {
         if (dto.customerId() != null) {
             Customer customer = customerRepo.findById(dto.customerId())
@@ -77,4 +77,14 @@ public class OrderService {
             order.setPaymentDetail(payment);
         }
     }
+
+    public List<OrderDTO> getOrdersByCustomer(Customer customer) {
+    customerRepo.findById(customer.getId())
+        .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+    return orderRepo.findByCustomerId(customer.getId())
+            .stream()
+            .map(this::toDTO)
+            .toList();
+}
 }
