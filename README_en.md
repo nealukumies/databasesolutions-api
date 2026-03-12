@@ -33,7 +33,12 @@ Here are the features of the database and backend implementation that make the A
 
 - **SwaggerUI**<br>
   The project includes SwaggerUI which provides an interactive web inteface to explore and test all the API endpoints. When the application is running, you can access SwaggerUI at `http://localhost:8081/swagger-ui/index.html` to see all the available endpoints, their request and response formats, and to test them directly from the browser.
-  <br><br>
+
+- **Postman Collection**<br>
+  The endpoints have also been tested with Postman. The collection does not include tests, but it includes example requests and responses for all endpoints, which makes it easy to test all endpoints in one go. The [Postman Collection](https://rest55-1951.postman.co/workspace/apitest~c810551e-bda4-45fe-ac5d-7ae92afb4cf8/collection/43611499-d300b680-1c58-42c8-be26-b5d91afe9ccf?action=share&source=copy-link&creator=43611499) made for this project is public but Postman might still require permissions to access it. Here is screenshot of latest run:
+
+![Postman Collection Screenshot](./postman_collection.png)
+<br><br>
 
 ## Webstore API Documentation
 
