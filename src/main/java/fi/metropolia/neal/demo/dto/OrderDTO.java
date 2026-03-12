@@ -1,6 +1,7 @@
 package fi.metropolia.neal.demo.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record OrderDTO(
     int id,
@@ -9,5 +10,6 @@ public record OrderDTO(
     LocalDateTime deliveryDate,
     int shippingAddressId,
     String status,
-    Integer paymentDetailId
+    Integer paymentDetailId,
+    List<OrderItemDTO> orderItems
 ) {}

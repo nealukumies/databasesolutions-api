@@ -1,9 +1,12 @@
 package fi.metropolia.neal.demo.entity;
 
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -41,8 +44,10 @@ public class Order {
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private PaymentDetail paymentDetail;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference(value = "order-items")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
-    // Getters and setters
     public void setId(Integer id) {
         this.id = id;
     }
@@ -88,5 +93,26 @@ public class Order {
         if (paymentDetail != null) {
             paymentDetail.setOrder(this);
         }
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+        if (orderItems != null) {
+            orderItems.forEach(item -> item.setOrder(this));
+        }
+    }
+
+    public void addOrderItem(OrderItem item) {
+        orderItems.add(item);
+        item.setOrder(this);
+    }
+
+    public void removeOrderItem(OrderItem item) {
+        orderItems.remove(item);
+        item.setOrder(null);
     }
 }

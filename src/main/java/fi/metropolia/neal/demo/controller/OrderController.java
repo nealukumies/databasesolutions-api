@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import fi.metropolia.neal.demo.service.OrderService;
 import fi.metropolia.neal.demo.dto.OrderDTO;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequestMapping("/orders")

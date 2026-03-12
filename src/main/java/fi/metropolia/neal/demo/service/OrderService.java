@@ -8,6 +8,7 @@ import fi.metropolia.neal.demo.entity.Order;
 import fi.metropolia.neal.demo.entity.Customer;
 import fi.metropolia.neal.demo.entity.PaymentDetail;
 import fi.metropolia.neal.demo.dto.OrderDTO;
+import fi.metropolia.neal.demo.dto.OrderItemDTO;
 
 import java.util.Optional;
 import java.util.List;
@@ -44,10 +45,19 @@ public class OrderService {
         });
     }
 
-    // Converts Order entity → OrderDTO
     private OrderDTO toDTO(Order order) {
+        List<OrderItemDTO> items = order.getOrderItems().stream()
+            .map(item -> new OrderItemDTO(
+                item.getOrder().getId(),
+                item.getProduct().getId(),
+                item.getQuantity(),
+                item.getUnitPrice()
+            ))
+            .toList();
+
         Integer paymentId = order.getPaymentDetail() != null ? order.getPaymentDetail().getId() : null;
         Integer customerId = order.getCustomer() != null ? order.getCustomer().getId() : null;
+
         return new OrderDTO(
             order.getId(),
             customerId,
@@ -55,9 +65,10 @@ public class OrderService {
             order.getDeliveryDate(),
             order.getShippingAddressId(),
             order.getStatus(),
-            paymentId
+            paymentId,
+            items
         );
-    }
+}
 
     private void fromDTO(OrderDTO dto, Order order) {
         if (dto.customerId() != null) {

@@ -61,7 +61,7 @@ public class PaymentDetailService {
     }
 
     public List<PaymentDetailDTO> getPaymentsByCustomer(Customer customer) {
-        return paymentRepo.findByCustomerId(customer.getId())
+        return paymentRepo.findByOrderCustomerId(customer.getId())
                 .stream()
                 .map(this::toDTO)
                 .toList();
