@@ -35,15 +35,16 @@ Alla on lueteltu tietokannan ja taustajärjestelmän ominaisuuksia, jotka tekev�
 
 - **SwaggerUI**<br>
   Projekti sisältää SwaggerUI:n, joka tarjoaa interaktiivisen verkkokäyttöliittymän kaikkien API-päätepisteiden selaamiseen ja testaamiseen. Sovelluksen ollessa käynnissä, SwaggerUI on saatavilla osoitteessa `http://localhost:8081/swagger-ui/index.html`, josta näet kaikki käytettävissä olevat päätepisteet, niiden pyyntö- ja vastausformaatit sekä voit testata niitä suoraan selaimesta.
-  - **Postman Collection**  
-    Päätepisteet on testattu myös Postmanilla. Kokoelma ei sisällä testejä, mutta se sisältää esimerkkipyyntöjä ja -vastauksia kaikille päätepisteille, mikä tekee päätepisteiden samanaikaisesta testaamisesta helppoa. Tämän projektin [Postman collection](https://rest55-1951.postman.co/workspace/apitest~c810551e-bda4-45fe-ac5d-7ae92afb4cf8/collection/43611499-d300b680-1c58-42c8-be26-b5d91afe9ccf?action=share&source=copy-link&creator=43611499) on julkinen, mutta Postman saattaa silti vaatia käyttöoikeuksia sen avaamiseen. Tässä on kuvakaappaus viimeisimmästä ajosta:
+
+- **Postman Collection**<br>
+  Päätepisteet on testattu myös Postmanilla. Kokoelma ei sisällä testejä, mutta se sisältää esimerkkipyyntöjä ja -vastauksia kaikille päätepisteille, mikä tekee päätepisteiden samanaikaisesta testaamisesta helppoa. Tämän projektin [Postman collection](https://rest55-1951.postman.co/workspace/apitest~c810551e-bda4-45fe-ac5d-7ae92afb4cf8/collection/43611499-d300b680-1c58-42c8-be26-b5d91afe9ccf?action=share&source=copy-link&creator=43611499) on julkinen, mutta Postman saattaa silti vaatia käyttöoikeuksia sen avaamiseen. Tässä on kuvakaappaus viimeisimmästä ajosta:
 
 ![Postman Collection Screenshot](./postman_collection.png)
 <br><br>
 
 ## Verkkokaupan API-dokumentaatio
 
-Seuraavissa taulukoissa ovat kaikki verkkokaupan API-päätepisteet. Jokaisesta päätepisteestä on listattu HTTP-metodi ja polku sekä lyhyt kuvaus päätepisteestä. Esimerkki request boydy on annettu JSON-muodossa niille päätepisteille, jotka sitä vaativat.
+Seuraavissa taulukoissa ovat kaikki verkkokaupan API-päätepisteet. Jokaisesta päätepisteestä on listattu HTTP-metodi ja polku sekä lyhyt kuvaus päätepisteestä. Esimerkki request body on annettu JSON-muodossa niille päätepisteille, jotka sitä vaativat.
 Kaikille päätepisteille on myös esimerkki odotetusta vastauksesta JSON-muodossa sekä HTTP-statuskoodit.
 
 ---
