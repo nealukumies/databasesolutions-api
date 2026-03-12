@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Set;
 
@@ -32,8 +33,9 @@ public class Product {
     private BigDecimal price;
     @Column(name = "stock_quantity")
     private int stockQuantity;
-    @Column(name ="category_id")
-    private int categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private ProductCategory category;
     @Column(name ="startdate")
     private LocalDate startDate;
     @Column(name ="enddate")
@@ -77,11 +79,11 @@ public class Product {
     public int getStockQuantity() {
         return stockQuantity;
     }
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(ProductCategory category) {
+        this.category = category;
     }
-    public int getCategoryId() {
-        return categoryId;
+    public ProductCategory getCategory() {
+        return category;
     }
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;

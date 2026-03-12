@@ -6,7 +6,6 @@ import fi.metropolia.neal.demo.dto.PaymentDetailDTO;
 import fi.metropolia.neal.demo.dto.CompanyCustomerDTO;
 import fi.metropolia.neal.demo.entity.CompanyCustomer;
 import fi.metropolia.neal.demo.entity.Customer;
-import fi.metropolia.neal.demo.entity.Order;
 import fi.metropolia.neal.demo.repository.CustomerRepo;
 import java.util.List;
 

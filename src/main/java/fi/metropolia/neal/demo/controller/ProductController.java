@@ -1,19 +1,18 @@
 package fi.metropolia.neal.demo.controller;
 
-import org.springframework.web.bind.annotation.*;
+import fi.metropolia.neal.demo.dto.ProductDTO;
+import fi.metropolia.neal.demo.entity.Product;
+import fi.metropolia.neal.demo.service.ProductService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
-import fi.metropolia.neal.demo.entity.Product;
-import fi.metropolia.neal.demo.service.ProductService;
-import fi.metropolia.neal.demo.dto.ProductDTO;
-
-
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
@@ -28,13 +27,28 @@ public class ProductController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping
+    public List<ProductDTO> getAllProducts() {
+        return productService.getAllProducts()
+                .stream()
+                .map(this::toDTO)
+                .toList();
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public List<ProductDTO> getProductsByCategory(@PathVariable int categoryId) {
+        return productService.getProductsByCategory(categoryId);
+    }
+
     @PostMapping
-    public ProductDTO create(@RequestBody ProductDTO dto) {
-        return toDTO(productService.save(dto));
+    public ProductDTO createProduct(@RequestBody ProductDTO dto) {
+        Product saved = productService.save(dto);
+        return toDTO(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable int id, @RequestBody ProductDTO dto) {
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable int id,
+                                                    @RequestBody ProductDTO dto) {
         return productService.update(id, dto)
                 .map(this::toDTO)
                 .map(ResponseEntity::ok)
@@ -49,20 +63,27 @@ public class ProductController {
     @PostMapping("/search")
     public List<ProductDTO> searchByPrice(@RequestBody Map<String, Double> range) {
         return productService.findByPriceRange(range.get("minPrice"), range.get("maxPrice"))
-                .stream().map(this::toDTO).toList();
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
 
     private ProductDTO toDTO(Product p) {
+        Integer categoryId = p.getCategory() != null ? p.getCategory().getId() : null;
+        List<Integer> supplierIds = p.getSuppliers().stream()
+                .map(s -> s.getId())
+                .toList();
+
         return new ProductDTO(
                 p.getId(),
                 p.getName(),
                 p.getDescription(),
                 p.getPrice(),
                 p.getStockQuantity(),
-                p.getCategoryId(),
+                categoryId,
                 p.getStartDate(),
                 p.getEndDate(),
-                p.getSuppliers().stream().map(s -> s.getId()).toList()
+                supplierIds
         );
     }
 }

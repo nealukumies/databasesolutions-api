@@ -1,5 +1,8 @@
 package fi.metropolia.neal.demo.repository;
 import fi.metropolia.neal.demo.entity.Product;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,4 +15,6 @@ public interface ProductRepo extends JpaRepository<Product, Integer> {
     @Transactional
     @Query("UPDATE Product p SET p.price = p.price * (1 + :percentage / 100)")
     void updatePriceByPercentage(@Param("percentage") double percentage);
+
+    List<Product> findByCategoryId(int categoryId);
 }
